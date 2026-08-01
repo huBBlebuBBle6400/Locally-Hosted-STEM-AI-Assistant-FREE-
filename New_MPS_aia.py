@@ -1,4 +1,4 @@
-# local_math_physics_ai.py
+
 from dotenv import load_dotenv
 import os
 
@@ -13,7 +13,7 @@ import warnings
 import sys
 warnings.filterwarnings("ignore")
 
-# ========== CORE FUNCTIONS ==========
+#FUNCTIONS 
 
 def solve_expression(expr_str, symbol='x'):
     x = sp.Symbol(symbol)
@@ -54,7 +54,7 @@ def matrix_operations(expr):
     except Exception as e:
         return None, str(e)
 
-# ========== EXPLANATION ENGINE ==========
+#EXPLANATIONS FOR SOLUTIONS
 
 def explain_solution(user_input, expr=None, sol=None, operation="solve"):
     if operation == "solve":
@@ -70,7 +70,7 @@ def explain_solution(user_input, expr=None, sol=None, operation="solve"):
     else:
         return f"Computed result: {sol}"
 
-# ========== PHYSICS FUNCTIONS ==========
+#PHYSICS
 
 def solve_kinematics(u=None, a=None, t=None, s=None, v=None):
     t_sym, u_sym, a_sym, s_sym, v_sym = sp.symbols('t u a s v')
@@ -100,7 +100,7 @@ def solve_ohms_law(v=None, i=None, r=None):
         return expr, sol
     return None, "Invalid or incomplete Ohm's law input."
 
-# ========== PLOTTING ==========
+#GRAPHING
 
 def plot(expr_str, var='x', domain=(-10, 10), points=300):
     expr = parse(expr_str)
@@ -120,7 +120,7 @@ def plot(expr_str, var='x', domain=(-10, 10), points=300):
 
     st.pyplot(plt) 
 
-# ========== MAIN INTERFACE ==========
+#PRIMARY USER INTERFACE
 
 def main():
     print("\n📘 Local Math & Physics Assistant")
@@ -199,26 +199,26 @@ if __name__ == '__main__':
     if get_ipython():
         main()
 
-# --- [6] GPT-3.5 Natural Language Processing ---
-# --- [1] Imports ---
+#Natural Language Processing
+
 import streamlit as st
 
 import os
 
 
-# --- [3] Streamlit UI ---
-st.title("🧠 Math & Physics AI Assistant")
-st.image("logo.png", caption="Powered by GPT-3.5 + SymPy", use_column_width=True)
 
-# Chat input
-user_input = st.chat_input("Ask a math or physics question in plain English:")
+st.title("🧠 Math & Physics AI Assistant")
+st.image("logo.png", caption="How can I help you?", use_column_width=True)
+
+
+user_input = st.chat_input("Ask any question (STEM or not) in plain English:")
 
 import ollama
 
 def ask_ai(prompt):
     try:
         response = ollama.chat(
-            model='llama3',  # or 'mistral'
+            model='llama3',  
             messages=[
                 {'role': 'system', 'content': 'You are a helpful math and physics assistant that explains answers clearly.'},
                 {'role': 'user', 'content': prompt}
@@ -228,13 +228,13 @@ def ask_ai(prompt):
     except Exception as e:
         return f"❌ Ollama Error: {e}"
 
-# --- [5] Display result ---
+# END RESULTS
 if user_input:
     st.info(f"📝 You asked: {user_input}")
 
-    # Detect graphing requests
+  
     if any(word in user_input.lower() for word in ["plot", "graph", "draw"]):
-        # extract expression (basic version)
+        
         expr = user_input.lower().replace("plot", "").replace("graph", "").replace("draw", "").strip()
         
         try:
@@ -244,5 +244,5 @@ if user_input:
 
     else:
         reply = ask_ai(user_input)
-        st.success("✅ AI says:")
+        st.success("✅ Zlatan says:")
         st.markdown(reply)
